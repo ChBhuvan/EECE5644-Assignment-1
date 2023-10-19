@@ -53,8 +53,8 @@ for i in range(N):
             X[i, :] = np.random.multivariate_normal(mean[3, :], covariance[3, :, :])
 
 #loss_matrix = np.ones(shape = [N_l, N_l]) - np.eye(N_l)
-#loss_matrix = np.array([[0, 10, 10], [1, 0, 10], [1, 1, 0]])
-loss_matrix = np.array([[0, 100, 100], [1, 0, 100], [1, 1, 0]])
+loss_matrix = np.array([[0, 10, 10], [1, 0, 10], [1, 1, 0]])
+#loss_matrix = np.array([[0, 100, 100], [1, 0, 100], [1, 1, 0]])
 print(loss_matrix)
 
 P_x_given_L = np.zeros(shape = [N_l, N])
