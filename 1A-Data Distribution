@@ -29,7 +29,6 @@ for j in range(N_S):
         elif (label[j] == 1):
                 X[j, :] = np.random.multivariate_normal(mean[1, :], covariance[1, :,:])
 
-# Compute discriminant score using class conditional Gaussian PDF
 GPDF0 = np.log(multivariate_normal.pdf(X,mean = mean[0, :], cov = covariance[0, :,:]))
 GPDF1 = np.log(multivariate_normal.pdf(X,mean = mean[1, :], cov = covariance[1, :,:]))
 discrim_score = GPDF1 - GPDF0
@@ -50,13 +49,12 @@ for (index, tau) in enumerate(tau_sweep):
         FP[index] = (np.size(np.where((decision == 1) & (label == 0))))/np.size(np.where(label == 0))
         minPerror[index] = (priors[0] * FP[index]) + (priors[1] * (1 - TP[index]))
 
-# Theoretical classification based on class priors
-loggamma_ideal = np.log(priors[0] / priors[1])
-ideal_decision = (discrim_score >= loggamma_ideal)
+gamma_ideal = np.log(priors[0] / priors[1]) #Classify using class priors
+ideal_decision = (discrim_score >= gamma_ideal)
 TP_ideal = (np.size(np.where((ideal_decision == 1) & (label == 1))))/np.size(np.where(label == 1))
 FP_ideal = (np.size(np.where((ideal_decision == 1) & (label == 0))))/np.size(np.where(label == 0))
 minPerror_ideal = (priors[0] * FP_ideal) + (priors[1] * (1 - TP_ideal))
-print("Gamma Ideal - %f and corresponding minimum error %f" %(np.exp(loggamma_ideal), minPerror_ideal))
+print("Gamma Ideal - %f and corresponding minimum error %f" %(np.exp(gamma_ideal), minPerror_ideal))
 
 #Plot The Data Distribution
 fig = plt.figure()
@@ -69,4 +67,3 @@ ax.set_zlabel('X2')
 ax.legend()
 plt.title('The Data Distribution')
 plt.show()
-
