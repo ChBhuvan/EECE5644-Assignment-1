@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 from mpl_toolkits.mplot3d import Axes3D
 np.set_printoptions(threshold=np.inf)
-plt.rcParams['figure.figsize'] = [9,9]
+plt.rcParams['figure.figsize'] = [7,7] #Plot size
 
 N_f = 4          #Features  
 N_S = 10000       #Samples
@@ -29,7 +29,7 @@ for j in range(N_S):
         elif (label[j] == 1):
                 X[j, :] = np.random.multivariate_normal(mean[1, :], covariance[1, :,:])
 
-GPDF0 = np.log(multivariate_normal.pdf(X,mean = mean[0, :], cov = covariance[0, :,:]))
+GPDF0 = np.log(multivariate_normal.pdf(X,mean = mean[0, :], cov = covariance[0, :,:]))  #using the matrices for creation of GPDF
 GPDF1 = np.log(multivariate_normal.pdf(X,mean = mean[1, :], cov = covariance[1, :,:]))
 discrim_score = GPDF1 - GPDF0
 sorted_tau = np.sort(discrim_score)
@@ -59,8 +59,8 @@ print("Gamma Ideal - %f and corresponding minimum error %f" %(np.exp(gamma_ideal
 #Plot The Data Distribution
 fig = plt.figure()
 ax = plt.axes(projection = "3d")
-Class0 = ax.scatter(X[(label==0),3],X[(label==0),1],X[(label==0),2],'+',color ='orange', label="0")
-Class1 = ax.scatter(X[(label==1),3],X[label==1,1],X[label==1,2],'.',color = 'blue', label="1")
+Cls0 = ax.scatter(X[(label==0),3],X[(label==0),1],X[(label==0),2],'+',color ='orange', label="0")
+Cls1 = ax.scatter(X[(label==1),3],X[label==1,1],X[label==1,2],'.',color = 'blue', label="1")
 plt.xlabel('X3')
 plt.ylabel('X1')
 ax.set_zlabel('X2')
