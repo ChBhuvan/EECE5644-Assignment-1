@@ -54,7 +54,7 @@ for i in range(N):
 
 #loss_matrix = np.ones(shape = [N_l, N_l]) - np.eye(N_l)
 loss_matrix = np.array([[0, 10, 10], [1, 0, 10], [1, 1, 0]])
-#loss_matrix = np.array([[0, 100, 100], [1, 0, 100], [1, 1, 0]])
+loss_matrix = np.array([[0, 100, 100], [1, 0, 100], [1, 1, 0]])
 print(loss_matrix)
 
 P_x_given_L = np.zeros(shape = [N_l, N])
@@ -65,12 +65,11 @@ P_x = np.matmul(priors, P_x_given_L)
 ClassPosteriors = (P_x_given_L * (np.matlib.repmat(np.transpose(priors), 1, N))) / np.matlib.repmat(P_x, N_l, 1)
 ExpectedRisk = np.matmul(loss_matrix, ClassPosteriors)
 Decision = np.argmin(ExpectedRisk, axis = 0)
-print("Average Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
+print("Minimum Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
 ConfusionMatrix = np.zeros(shape = [N_l, N_l])
 for d in range(N_l):
     for l in range(N_l):
         ConfusionMatrix[d, l] = (np.size(np.where((d == Decision) & (l == label)))) / np.size(np.where(label==l))
-
 print(ConfusionMatrix)
 
 # Plot Classification results
