@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 from mpl_toolkits.mplot3d import Axes3D
 np.set_printoptions(threshold=np.inf)
-plt.rcParams['figure.figsize'] = [9,9]
+plt.rcParams['figure.figsize'] = [7,7]
 from numpy import linalg as LINEARALG
 
 N_f = 4          #Features  
@@ -38,8 +38,7 @@ W_LDA = W[np.argmax(V)]
 X0 = X[np.where(label == 0)]
 X1 = X[np.where(label == 1)]
 
-# Data projection using wLDA
-Y0 = np.zeros(len(X0))
+Y0 = np.zeros(len(X0))  # Data projection using wLDA
 Y1 = np.zeros(len(X1))
 Y0 = np.dot(np.transpose(W_LDA), np.transpose(X0))
 Y1 = np.dot(np.transpose(W_LDA), np.transpose(X1))
