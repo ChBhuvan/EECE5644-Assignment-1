@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 from mpl_toolkits.mplot3d import Axes3D
 np.set_printoptions(threshold=np.inf)
-plt.rcParams['figure.figsize'] = [9,9]
+plt.rcParams['figure.figsize'] = [7,7]
 
 N_f = 4          #Features  
 N_S = 10000       #Samples
@@ -45,7 +45,7 @@ TP = [None] * len(tau_sweep)
 FP = [None] * len(tau_sweep)
 minPerror = [None] * len(tau_sweep)
 
-for (index, tau) in enumerate(tau_sweep):
+for (index, tau) in enumerate(tau_sweep):   #GO through the t values
         decision = (discrim_score >= tau)
         TP[index] = (np.size(np.where((decision == 1) & (label == 1))))/np.size(np.where(label == 1))
         FP[index] = (np.size(np.where((decision == 1) & (label == 0))))/np.size(np.where(label == 0))
