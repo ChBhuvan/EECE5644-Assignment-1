@@ -14,7 +14,7 @@ df = pd.read_excel(r"C:\Users\Bhuvan Karthik\Desktop\INTRO TO ML\Assignment 1 - 
 Data = df.to_numpy()
 
 N = Data.shape[0]          
-Y = pd.read_csv(r"C:\Users\Bhuvan Karthik\Desktop\INTRO TO ML\Assignment 1 - EECE5644\human+activity+recognition+using+smartphones\UCI HAR Dataset\UCI HAR Dataset\train\y_train.txt")
+Y = pd.read_csv(r"C:\Users\Bhuvan Karthik\Desktop\INTRO TO ML\Assignment 1 - EECE5644\human+activity+recognition+using+smartphones\UCI HAR Dataset\UCI HAR Dataset\train\y_train.txt") #use csv for txt file as well
 label = np.squeeze(Y.to_numpy())
 print(Data.shape)
 
@@ -44,7 +44,6 @@ loss_matrix = np.ones(shape = [N_l, N_l]) - np.eye(N_l) #Creates identity matrix
 P_x_given_L = np.zeros(shape = [N_l, N])
 for i in range(0, N_l):
     P_x_given_L[i, :] = multivariate_normal.pdf(Data, mean = mean[i, :], cov = Covariance[i, :,:])
-
 priors = np.zeros(shape = [N_l, 1])
 for i in range(0, N_l):
     priors[i] = (np.size(label[np.where((label == i + 1))])) / N  #Priors calculation
@@ -52,7 +51,7 @@ P_x = np.matmul(np.transpose(priors), P_x_given_L)
 ClassPosteriors = (P_x_given_L * (np.matlib.repmat(priors, 1, N))) / np.matlib.repmat(P_x, N_l, 1)
 ExpectedRisk = np.matmul(loss_matrix, ClassPosteriors)
 Decision = np.argmin(ExpectedRisk, axis = 0)
-print("Average Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
+print("Minimum Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
 
 # Estimate Confusion Matrix
 Confusion = np.zeros(shape = [N_l, N_l])
