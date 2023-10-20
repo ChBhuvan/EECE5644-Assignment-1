@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from scipy.stats import multivariate_normal
 from mpl_toolkits.mplot3d import Axes3D
 np.set_printoptions(threshold=np.inf)
-
 N = 10000               # Number of Samples
 N_l = 3                 # Number of classes
 N_f = 3                 # Number of features
@@ -65,17 +64,17 @@ P_x = np.matmul(priors, P_x_given_L)
 ClassPosteriors = (P_x_given_L * (np.matlib.repmat(np.transpose(priors), 1, N))) / np.matlib.repmat(P_x, N_l, 1)
 ExpectedRisk = np.matmul(loss_matrix, ClassPosteriors)
 Decision = np.argmin(ExpectedRisk, axis = 0)
-print("Average Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
+print("Minimum Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
 Confusion = np.zeros(shape = [N_l, N_l])
 for d in range(N_l):
     for l in range(N_l):
         Confusion[d, l] = (np.size(np.where((d == Decision) & (l == label)))) / np.size(np.where(label==l))
-
 print(Confusion)
 
 # Plot Classification results
 fig = plt.figure()
 ax = plt.axes(projection = "3d")
+#Use only red and green colors
 ax.scatter(X[(label==2) & (Decision == 1),0],X[(label==2) & (Decision == 1),1],X[(label==2) & (Decision == 1),2],color ='red', marker = 'o')
 ax.scatter(X[(label==2) & (Decision == 2),0],X[(label==2) & (Decision == 2),1],X[(label==2) & (Decision == 2),2],color ='green', marker = 'o')
 ax.scatter(X[(label==2) & (Decision == 0),0],X[(label==2) & (Decision == 0),1],X[(label==2) & (Decision == 0),2],color ='red', marker = 'o')
