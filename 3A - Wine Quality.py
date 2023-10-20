@@ -28,7 +28,7 @@ for i in range(0, N_l):
         covariance[i, :, :] = np.eye(N_f)
     else:
         covariance[i, :, :] = np.cov(Data[(label == i), :], rowvar = False)
-        covariance[i, :, :] += (0.000000005) * ((np.trace(covariance[i, :, :]))/LINEARALG.matrix_rank(covariance[i, :, :])) * np.eye(N_f)
+        covariance[i, :, :] += (0.000000005) * ((np.trace(covariance[i, :, :]))/LINEARALG.matrix_rank(covariance[i, :, :])) * np.eye(N_f) #lambda is here.
 
 Loss_mat = np.ones(shape = [N_l, N_l]) - np.eye(N_l)
 P_x_given_L = np.zeros(shape = [N_l, N])
@@ -44,7 +44,7 @@ P_x = np.matmul(np.transpose(priors), P_x_given_L)
 ClassPosteriors = (P_x_given_L * (np.matlib.repmat(priors, 1, N))) / np.matlib.repmat(P_x, N_l, 1)
 ExpectedRisk = np.matmul(Loss_mat, ClassPosteriors)
 Decision = np.argmin(ExpectedRisk, axis = 0)
-print("Average Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
+print("Minimum Expected Risk", np.sum(np.min(ExpectedRisk, axis = 0)) / N)
 
 # Estimate Confusion Matrix
 Confusion = np.zeros(shape = [N_l, N_l])
@@ -52,8 +52,7 @@ for d in range(N_l):
     for l in range(N_l):
         if l in label and d in label:
             Confusion[d, l] = (np.size(np.where((d == Decision) & (l == label)))) / np.size(np.where(label == l))
-print(np.array2string(np.round(Confusion, 5), separator=','))
-print(Confusion)
+print(np.array2string(np.round(Confusion, 5), separator=','))  #print(Confusion)
 
 # Plot Data Distribution
 fig = plt.figure()
